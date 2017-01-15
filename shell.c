@@ -11,6 +11,7 @@ int psh_help(char **args);
 int psh_exit(char **args);
 int psh_ls(char **args);
 int psh_man(char **args);
+int psh_cat(char **args);
 
 char *builtin_str[] = 
 {
@@ -19,7 +20,8 @@ char *builtin_str[] =
 	"exit",
 	"pwd",
 	"ls",
-	"man"
+	"man",
+	"cat"
 };
 int (*builtin_func[]) (char **) =
 {
@@ -28,16 +30,36 @@ int (*builtin_func[]) (char **) =
 	&psh_exit,
 	&psh_pwd,
 	&psh_ls,
-	&psh_man
+	&psh_man,
+	&psh_cat
 };
 int psh_num_builtins()
 {
 	return sizeof(builtin_str) / sizeof(char *);
 }
+int psh_cat(char **args)
+{
+	FILE *fp;
+	int c;
+	if(args[1] == NULL)
+	{
+		fprintf(stderr, "No file were given\n");
+		return 1;
+	}
+	else
+	{
+		fp = fopen(args[1], "r");
+		if(fp)
+		{
+			while((c = getc(fp)) != EOF)
+				putchar(c);
+			fclose(fp);
+		}
+	}
+}
 int psh_man(char **args)
 {
 	FILE *fp;
-	char buff[255];
 	int c;
 	if(args[1] == NULL)
 	{

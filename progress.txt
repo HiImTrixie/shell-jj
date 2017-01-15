@@ -4,5 +4,5 @@
   rm		Remove folder/file.					0%  [.....]
  touch		File creating.						0%  [.....]
  mkdir		Make new directory.					0%  [.....]
-  cat		Print file to terminal.					20% [#....]
+  cat		Print file to terminal.					100%[#####]
   vi		Add vi program to open/change files.			0%  [.....]
