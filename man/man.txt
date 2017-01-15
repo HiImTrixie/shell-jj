@@ -1,0 +1,13 @@
+MAN(1)			User Command			MAN(1)
+
+NAME
+	man - format and display manual pages.
+
+SYNOPSIS
+	man [command]
+
+DESCRIPTION
+	Man is the system's manual pager.
+
+
+	All functions will be implemented soon.

@@ -1,0 +1,7 @@
+PWD(1)			User Command			PWD(1)
+
+SYNOPSIS
+	pwd 
+
+DESCRIPTION
+	Print the full filename of the current working directory.

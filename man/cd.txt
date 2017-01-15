@@ -1,0 +1,12 @@
+CD(1)			User Command			CD(1)
+
+NAME
+	ls - change the working directory
+
+SYNOPSIS
+	cd [directory]
+
+DESCRIPTION
+	Change the shell working directory.
+
+	All functions will be implemented soon.
