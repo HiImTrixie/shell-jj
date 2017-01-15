@@ -10,6 +10,7 @@ int psh_cd(char **args);
 int psh_help(char **args);
 int psh_exit(char **args);
 int psh_ls(char **args);
+int psh_man(char **args);
 
 char *builtin_str[] = 
 {
@@ -17,7 +18,8 @@ char *builtin_str[] =
 	"help",
 	"exit",
 	"pwd",
-	"ls"
+	"ls",
+	"man"
 };
 int (*builtin_func[]) (char **) =
 {
@@ -25,11 +27,34 @@ int (*builtin_func[]) (char **) =
 	&psh_help,
 	&psh_exit,
 	&psh_pwd,
-	&psh_ls
+	&psh_ls,
+	&psh_man
 };
 int psh_num_builtins()
 {
 	return sizeof(builtin_str) / sizeof(char *);
+}
+int psh_man(char **args)
+{
+	FILE *fp;
+	char buff[255];
+	int c;
+	if(args[1] == NULL)
+	{
+		printf("You have to type what function you want to check.\n");
+		printf("Example: man ls\n");
+	}
+	else if(strcmp(args[1], "exit") == 0)
+	{
+		fp = fopen("man/exit.txt", "r");
+		if(fp)
+		{
+			while((c = getc(fp)) != EOF)
+				putchar(c);
+			fclose(fp);
+		}
+	}
+	return 1;
 }
 int psh_ls(char **args)
 {
