@@ -1,0 +1,7 @@
+# TODO
+Add functions:
+Copy folder/file to other location - cp
+Move folder/file to other location - mv
+Remove folder/file - rm
+File creating - touch
+Make new directory - mkdir
