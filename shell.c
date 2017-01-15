@@ -39,7 +39,7 @@ int psh_man(char **args)
 	FILE *fp;
 	char buff[255];
 	int c;
-	if(args[1] == NULL || strcmp(args[1] == "man") == 0)
+	if(args[1] == NULL)
 	{
 		printf("You have to type what function you want to check.\n");
 		printf("Example: man ls\n");
@@ -77,6 +77,16 @@ int psh_man(char **args)
 	else if(strcmp(args[1], "ls") == 0)
 	{
 		fp = fopen("man/ls.txt", "r");
+		if(fp)
+		{
+			while((c = getc(fp)) != EOF)
+				putchar(c);
+			fclose(fp);
+		}
+	}
+	else if(strcmp(args[1], "man") == 0)
+	{
+		fp = fopen("man/man.txt", "r");
 		if(fp)
 		{
 			while((c = getc(fp)) != EOF)

@@ -1,5 +1,7 @@
-Exit
-Exit
-Exit
-Exit
+EXIT(1)			User Command			EXIT(1)
 
+NAME
+	exit - terminate the calling process
+
+SYNOPSIS
+	exit
