@@ -12,6 +12,8 @@ int psh_man(char **args);
 int psh_cat(char **args);
 int psh_touch(char **args);
 int psh_rm(char **args);
+int psh_cp(char **args);
+
 char *builtin_str[] = 
 {
 	"cd",
@@ -20,7 +22,8 @@ char *builtin_str[] =
 	"man",
 	"cat",
 	"touch",
-	"rm"
+	"rm",
+	"cp"
 };
 int (*builtin_func[]) (char **) =
 {
@@ -30,11 +33,31 @@ int (*builtin_func[]) (char **) =
 	&psh_man,
 	&psh_cat,
 	&psh_touch,
-	&psh_rm
+	&psh_rm,
+	&psh_cp
 };
 int psh_num_builtins()
 {
 	return sizeof(builtin_str) / sizeof(char *);
+}
+int psh_cp(char **args)
+{
+        FILE *fp1= NULL, *fp2= NULL;
+        if(args[1] && args[2])
+        {
+                fp1 = fopen(args[1], "r");
+                fp2 = fopen(args[2], "w");
+                char buff[1024];
+                for(int i=0; fscanf(fp1, "%s", &buff) != -1; i++)
+                  fprintf(fp2, "%s", buff);
+                fclose(fp1);
+                fclose(fp2);
+        }
+        else
+        {
+                fprintf(stderr, "Not enough or too many arguments\n");
+        }
+	return 1;
 }
 int psh_rm(char **args)
 {
