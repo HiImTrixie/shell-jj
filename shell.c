@@ -12,7 +12,7 @@ int psh_exit(char **args);
 int psh_ls(char **args);
 int psh_man(char **args);
 int psh_cat(char **args);
-
+int psh_touch(char **args);
 char *builtin_str[] = 
 {
 	"cd",
@@ -21,7 +21,8 @@ char *builtin_str[] =
 	"pwd",
 	"ls",
 	"man",
-	"cat"
+	"cat",
+	"touch"
 };
 int (*builtin_func[]) (char **) =
 {
@@ -31,11 +32,32 @@ int (*builtin_func[]) (char **) =
 	&psh_pwd,
 	&psh_ls,
 	&psh_man,
-	&psh_cat
+	&psh_cat,
+	&psh_touch
 };
 int psh_num_builtins()
 {
 	return sizeof(builtin_str) / sizeof(char *);
+}
+int psh_touch(char **args)
+{
+	FILE *fp;
+	int c,j;
+	if(args[1] == NULL)
+	{
+		fprintf(stderr, "No arguments were given\n");
+		return 1;
+	}
+	else if(args[1] && args[2] == NULL)
+	{
+		fp = fopen(args[1], "w");
+		fclose(fp);
+	}
+	else
+	{
+		printf("Multiple creation files is not impleneted yet.\n");
+	}
+	return 1;
 }
 int psh_cat(char **args)
 {
@@ -110,6 +132,16 @@ int psh_man(char **args)
 	else if(strcmp(args[1], "man") == 0)
 	{
 		fp = fopen("man/man.txt", "r");
+		if(fp)
+		{
+			while((c = getc(fp)) != EOF)
+				putchar(c);
+			fclose(fp);
+		}
+	}
+	else if(strcmp(args[1], "cat") == 0)
+	{
+		fp = fopen("man/cat.txt", "r");
 		if(fp)
 		{
 			while((c = getc(fp)) != EOF)
