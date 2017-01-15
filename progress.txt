@@ -1,0 +1,8 @@
+[TODO] 		[Description] 						[Progress]
+  cp		Copy folder/file to other location.			0%  [.....]
+  mv		Move folder/file to other location.			0%  [.....]
+  rm		Remove folder/file.					0%  [.....]
+ touch		File creating.						0%  [.....]
+ mkdir		Make new directory.					0%  [.....]
+  cat		Print file to terminal.					20% [#....]
+  vi		Add vi program to open/change files.			0%  [.....]
