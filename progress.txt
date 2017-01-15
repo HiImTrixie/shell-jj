@@ -1,7 +1,7 @@
 [TODO] 		[Description] 						[Progress]
   cp		Copy folder/file to other location.			0%  [.....]
   mv		Move folder/file to other location.			0%  [.....]
-  rm		Remove folder/file.					0%  [.....]
+  rm		Remove folder/file.					100%[#####]
  touch		File creating.						100%[#####]
  mkdir		Make new directory.					0%  [.....]
   cat		Print file to terminal.					100%[#####]

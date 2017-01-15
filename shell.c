@@ -13,6 +13,8 @@ int psh_ls(char **args);
 int psh_man(char **args);
 int psh_cat(char **args);
 int psh_touch(char **args);
+int psh_rm(char **args);
+
 char *builtin_str[] = 
 {
 	"cd",
@@ -22,7 +24,8 @@ char *builtin_str[] =
 	"ls",
 	"man",
 	"cat",
-	"touch"
+	"touch",
+	"rm"
 };
 int (*builtin_func[]) (char **) =
 {
@@ -33,11 +36,25 @@ int (*builtin_func[]) (char **) =
 	&psh_ls,
 	&psh_man,
 	&psh_cat,
-	&psh_touch
+	&psh_touch,
+	&psh_rm
 };
 int psh_num_builtins()
 {
 	return sizeof(builtin_str) / sizeof(char *);
+}
+int psh_rm(char **args)
+{
+	if(args[1] == NULL)
+	{
+		fprintf(stderr, "No arguments were given.\n");
+		return 1;
+	}
+	else
+	{
+		remove(args[1]);
+	}
+	return 1;
 }
 int psh_touch(char **args)
 {
@@ -45,7 +62,7 @@ int psh_touch(char **args)
 	int c,j;
 	if(args[1] == NULL)
 	{
-		fprintf(stderr, "No arguments were given\n");
+		fprintf(stderr, "No arguments were given.\n");
 		return 1;
 	}
 	else if(args[1] && args[2] == NULL)
