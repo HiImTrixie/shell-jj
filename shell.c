@@ -56,6 +56,7 @@ int psh_cat(char **args)
 			fclose(fp);
 		}
 	}
+	return 1;
 }
 int psh_man(char **args)
 {
