@@ -4,7 +4,7 @@ NAME
 	man - format and display manual pages.
 
 SYNOPSIS
-	man [command]
+	man [command]...
 
 DESCRIPTION
 	Man is the system's manual pager.
