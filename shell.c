@@ -5,23 +5,18 @@
 #include <string.h>
 #include <dirent.h>
 
-int psh_pwd(char **args);
 int psh_cd(char **args);
 int psh_help(char **args);
 int psh_exit(char **args);
-int psh_ls(char **args);
 int psh_man(char **args);
 int psh_cat(char **args);
 int psh_touch(char **args);
 int psh_rm(char **args);
-
 char *builtin_str[] = 
 {
 	"cd",
 	"help",
 	"exit",
-	"pwd",
-	"ls",
 	"man",
 	"cat",
 	"touch",
@@ -32,8 +27,6 @@ int (*builtin_func[]) (char **) =
 	&psh_cd,
 	&psh_help,
 	&psh_exit,
-	&psh_pwd,
-	&psh_ls,
 	&psh_man,
 	&psh_cat,
 	&psh_touch,
@@ -72,7 +65,11 @@ int psh_touch(char **args)
 	}
 	else
 	{
-		printf("Multiple creation files is not impleneted yet.\n");
+		for(int i = 1; args[i] != NULL; i++)
+		{
+			fp = fopen(args[i], "w");
+			fclose(fp);
+		}
 	}
 	return 1;
 }
@@ -168,28 +165,6 @@ int psh_man(char **args)
 	}
 	return 1;
 }
-int psh_ls(char **args)
-{
-	DIR *d;
-	struct dirent *dir;
-	d = opendir(".");
-	if(d)
-	{
-		while((dir = readdir(d)) != NULL)
-		{
-			printf("%s\n", dir->d_name);
-		}
-		closedir(d);
-	}
-	return 1;
-}
-int psh_pwd(char **args)
-{
-	char cwd[1024];
-	getcwd(cwd, sizeof(cwd));
-	printf("%s\n", cwd);
-}
-
 int psh_cd(char **args)
 {
 	if(args[1] == NULL)
@@ -322,10 +297,10 @@ void psh_loop(void)
 	char *line;
 	char **args;
 	int status;
-
+	char cwd[1024];
 	do
 	{
-		printf("> ");
+		printf("%s$ ", getcwd(cwd, sizeof(cwd)));
 		line = psh_read_line();
 		args = psh_split_line(line);
 		status = psh_execute(args);
