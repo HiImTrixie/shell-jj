@@ -7,7 +7,7 @@ SYNOPSIS
 	ls
 
 DESCRIPTION
-	List information about the FILEs (the current directory by default).
+	List  information about the FILEs (the current directory by default).
 	Sort entries alphabetically if none is specified.
 
 	All functions will be implemented soon.
