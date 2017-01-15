@@ -3,31 +3,49 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <dirent.h>
 
 int psh_pwd(char **args);
 int psh_cd(char **args);
 int psh_help(char **args);
 int psh_exit(char **args);
+int psh_ls(char **args);
 
 char *builtin_str[] = 
 {
 	"cd",
 	"help",
 	"exit",
-	"pwd"
+	"pwd",
+	"ls"
 };
 int (*builtin_func[]) (char **) =
 {
 	&psh_cd,
 	&psh_help,
 	&psh_exit,
-	&psh_pwd
+	&psh_pwd,
+	&psh_ls
 };
 int psh_num_builtins()
 {
 	return sizeof(builtin_str) / sizeof(char *);
 }
-
+int psh_ls(char **args)
+{
+	DIR *d;
+	struct dirent *dir;
+	d = opendir(".");
+	if(d)
+	{
+		while((dir = readdir(d)) != NULL)
+		{
+			printf("%s\n", dir->d_name);
+		}
+		closedir(d);
+	}
+	return 1;
+}
 int psh_pwd(char **args)
 {
 	char cwd[1024];
