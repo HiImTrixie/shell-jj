@@ -1,0 +1,13 @@
+TOUCH(1)			User Command			TOUCH(1)
+
+NAME
+	touch - change file timestamps
+
+SYNOPSIS
+	touch [file]...
+
+DESCRIPTION
+	Update the access and modification times for each
+	FILE to the current time.
+
+	All functions will be implemented soon.

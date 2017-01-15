@@ -1,0 +1,12 @@
+RM(1)			User Command			RM(1)
+
+NAME
+	rm - remove files and directories
+
+SYNOPSIS
+	cd [file]...
+
+DESCRIPTION
+	rm removes each epcified file or directory.
+
+	All functions will be implemented soon.

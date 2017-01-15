@@ -1,0 +1,13 @@
+CAT(1)			User Command			CAT(1)
+
+NAME
+	cat - concotenate files and print on the
+	standard output
+
+SYNOPSIS
+	cat [file]...
+
+DESCRIPTION
+	Concatenate FILE(s) to standard output.
+
+	All functions will be implemented soon.
