@@ -58,7 +58,6 @@ int runbuildin(BuildInType command,char **args)
 		case NO:/* nothing */
 		default:break;
 	}
-  return 1;
 }
 
 int psh_num_builtins()
