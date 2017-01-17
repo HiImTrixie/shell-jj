@@ -162,6 +162,7 @@ int psh_man(char **args)
 			fclose(fp);
 		}
 	}
+  putchar('\n');
 	return 1;
 }
 int psh_cd(char **args)

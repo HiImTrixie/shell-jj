@@ -53,9 +53,6 @@ int psh_execute(char **args)
 	return psh_launch(args);
 }
 
-#define PSH_TOK_BUFSIZE 64
-#define PSH_TOK_DELIM " \t\r\n\a"
-
 char **psh_split_line(char *line)
 {
 	int bufsize = PSH_TOK_BUFSIZE, position=0;

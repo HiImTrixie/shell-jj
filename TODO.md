@@ -9,9 +9,10 @@
 | cat	   | Print file to terminal.                     |![alt text](http://progressed.io/bar/100 "Progress")|
 | touch  | File creating.                              |![alt text](http://progressed.io/bar/100 "Progress")|
 | rm	   | Remove folder/file.                         |![alt text](http://progressed.io/bar/100 "Progress")|
-| man    | newline after all content of man txt        |![alt text](http://progressed.io/bar/90 "Progress")|
+| man    | newline after all content of man txt        |![alt text](http://progressed.io/bar/100 "Progress")|
+| system | All system commands don't work well         |![alt text](http://progressed.io/bar/100 "Progress")|
 | cp	   | Copy files but don't add newline symbol     |![alt text](http://progressed.io/bar/50 "Progress")|
-| system | All system commands don't work well         |![alt text](http://progressed.io/bar/0 "Progress")|
+
 
 
 
