@@ -46,12 +46,9 @@ int psh_execute(char **args)
 	{
 		return 1;
 	}
-	for(i = 0; i < psh_num_builtins(); i++)
+	if( (i = isbuildin(args[0])) != NO)
 	{
-		if( (i = isbuildin(args[0])) != NO)
-		{
-			return runbuildin(i,args);
-		}
+		return runbuildin(i,args);
 	}
 	return psh_launch(args);
 }
