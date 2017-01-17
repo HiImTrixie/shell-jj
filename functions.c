@@ -23,9 +23,9 @@ int psh_cp(char **args)
         {
                 fp1 = fopen(args[1], "r");
                 fp2 = fopen(args[2], "w");
-                char buff[1024];
-                for(int i=0; fscanf(fp1, "%s", buff) != -1; i++)
-                  fprintf(fp2, "%s", buff);
+                char symbol;
+                for(int i=0; ( symbol = fgetc(fp1)) != -1; i++)
+                  fputc(symbol, fp2);
                 fclose(fp1);
                 fclose(fp2);
         }
