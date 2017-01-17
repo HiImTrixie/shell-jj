@@ -48,7 +48,7 @@ int psh_execute(char **args)
 	}
 	for(i = 0; i < psh_num_builtins(); i++)
 	{
-		if(strcmp(args[0], builtin_str[i]) == 0)
+		if( isbuildin(args[0]) == 1)
 		{
 			return(*builtin_func[i])(args);
 		}

@@ -4,6 +4,18 @@
 #include "build_in.h"
 #include "functions.h"
 
+char *built_in_str[] =
+{
+	"cd",
+	"help",
+	"exit",
+	"man",
+	"cat",
+	"touch",
+	"rm",
+	"cp"
+};
+
 int psh_cp(char **args)
 {
         FILE *fp1= NULL, *fp2= NULL;
@@ -177,7 +189,7 @@ int psh_help(char **args)
 
 	for(i = 0; i < psh_num_builtins(); i++)
 	{
-		printf(" %s\n", builtin_str[i]);
+		printf(" %s\n", built_in_str[i]);
 	}
 }
 
