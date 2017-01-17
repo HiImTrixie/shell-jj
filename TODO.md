@@ -22,4 +22,4 @@
 | :--------------------                 |:---       |
 | Add history                           |![alt text](http://progressed.io/bar/0 "Progress")|
 | Replace function psh_read_line-> on function with readline library|![alt text](http://progressed.io/bar/0 "Progress")|
-|split shell.c to separated files with less wall of text.|![alt text](http://progressed.io/bar/60 "Progress")|
+| Split shell.c to separated files.     |![alt text](http://progressed.io/bar/100 "Progress")|
