@@ -48,9 +48,9 @@ int psh_execute(char **args)
 	}
 	for(i = 0; i < psh_num_builtins(); i++)
 	{
-		if( isbuildin(args[0]) == 1)
+		if( (i = isbuildin(args[0])) != NO)
 		{
-			return(*builtin_func[i])(args);
+			return runbuildin(i,args);
 		}
 	}
 	return psh_launch(args);

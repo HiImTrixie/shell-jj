@@ -15,7 +15,7 @@ typedef enum{
 
 int isbuildin(char *s);
 
-void runbuildin(BuildInType command);
+int runbuildin(BuildInType command, char **args);
 
 int psh_num_builtins();
 
