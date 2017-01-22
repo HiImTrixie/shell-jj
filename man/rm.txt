@@ -4,7 +4,7 @@ NAME
 	rm - remove files and directories
 
 SYNOPSIS
-	cd [file]...
+	rm [file]...
 
 DESCRIPTION
 	rm removes each epcified file or directory.

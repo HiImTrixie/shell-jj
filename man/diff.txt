@@ -1,13 +1,13 @@
 DIFF(1)			User Command			DIFF(1)
 
 NAME
-	touch - compare files line by line
+	diff - compare files line by line
 
 SYNOPSIS
-	touch [option]... FILES
+	diff [option]... FILES
 
 DESCRIPTION
-	Fompare FILES line by line.
+	Compare FILES line by line.
 
 	-a, --show-all	Show all lines in files.
 

@@ -1,7 +1,7 @@
 CD(1)			User Command			CD(1)
 
 NAME
-	ls - change the working directory
+	cd - change the working directory
 
 SYNOPSIS
 	cd [directory]
