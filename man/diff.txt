@@ -1,0 +1,18 @@
+DIFF(1)			User Command			DIFF(1)
+
+NAME
+	touch - compare files line by line
+
+SYNOPSIS
+	touch [option]... FILES
+
+DESCRIPTION
+	Fompare FILES line by line.
+
+	-a, --show-all	Show all lines in files.
+
+	-r, --recursive	Recursively compare any subdirectories found.
+
+	-s, --report-identical-files	Report when two files are the same.
+
+	-h, --help	Output this help.
