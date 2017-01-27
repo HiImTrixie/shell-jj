@@ -12,10 +12,23 @@
 
 #include <stdio.h>
 
-int main(int argc, char **argv)
+
+void cat(char *name)
 {
   FILE *file;
   int c;
+  file = fopen(name, "r");
+  if(file)
+  {
+    while((c = getc(file)) != EOF)
+      putchar(c);
+    fclose(file);
+  }
+}
+
+
+int main(int argc, char **argv)
+{
   if(argv[1] == NULL)
   {
     fprintf(stderr, "No file were given\n");
@@ -23,13 +36,7 @@ int main(int argc, char **argv)
   }
   else
   {
-    file = fopen(argv[1], "r");
-    if(file)
-    {
-      while((c = getc(file)) != EOF)
-      putchar(c);
-			fclose(file);
-		}
-	}
-	return 0;
+    cat(argv[1]);
+  }
+  return 0;
 }
