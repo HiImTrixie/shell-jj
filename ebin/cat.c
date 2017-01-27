@@ -1,7 +1,7 @@
 /*! \file cat.c
  *  \author Grzegorz Jaworski
  *  \date 27 Styczeń 2017
- *  \version   v0.1
+ *  \version   v0.2
  *  \brief Wyświetlanie zawartości pliku
  *  \details Program wyświetlajacy zawartość wskazanych plików
  *  @see https://github.com/HiImTrixie/shell-jj
@@ -15,13 +15,15 @@
 #include <ctype.h> // library with isprint()
 #include <getopt.h>
 
-char version[64] = "v.0.1 Alpha"; /*!< Aktualna wersja programu */
+char version[64] = "v.0.2"; /*!< Aktualna wersja programu */
+
+unsigned show_tabs = 0; /*!< Wyświetl znaki tabulacji */
 
 // Content of help
 static char const * const option_help[] =
 {
 "With no FILE read standard input.\n\n"
-"-A  --show-all  Show all lines contained in files.",
+"-T  --show-tabs  Display ^I instead of TAB character.",
 "-v --version  Show version of program."
 "--help  Output this help.",
 0
@@ -33,12 +35,12 @@ static char const * const option_help[] =
  */
 static struct option const long_options[] =
 {
-  {"show-all", 0, 0, 'a'},
-  {"recursive", 0, 0, 'r'},
-  {"report-identical-files", 0, 0, 's'},
+  {"show-tabs", 0, 0, 'T'},
+  {"version", 0, 0, 'v'},
   {"help", 0, 0, 'h'},
   {0, 0, 0, 0}
 };
+
 
 /*! \brief Funkcja wyświetla zawartość pomocy.
  *
@@ -73,6 +75,13 @@ void pversion()
   printf ("Cat\nVersion: %s\n", version);
   exit(-1);
 }
+
+/*! \brief Funkcja wyświetlająca zawartość pliku.
+ *
+ * Funkcja wyświetla zawartość podanego pliku jako argument *name.
+ *
+ * \param[in] *name Nazwa pliku z, którego ma zostać przeczytana oraz wyświetlona zawartość
+ */
 void cat(char *name)
 {
   FILE *file;
@@ -80,8 +89,13 @@ void cat(char *name)
   file = fopen(name, "r");
   if(file)
   {
-    while((c = getc(file)) != EOF)
-      putchar(c);
+    while((c = getc(file)) != EOF){
+      if(show_tabs && c=='\t')
+        printf("^I");
+      else{
+        putchar(c);
+      }
+    }
     fclose(file);
   }
 }
@@ -92,12 +106,13 @@ int main(int argc, char **argv)
   int c, index;
 
   while ((c = getopt_long (argc, argv,
-          "Avh",
+          "Tvh",
           long_options, 0)) != EOF){
 
     switch (c)
     {
-      case 'A':
+      case 'T':
+        show_tabs = 1;
         break;
 
       case 'v':
