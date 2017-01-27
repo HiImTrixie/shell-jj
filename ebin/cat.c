@@ -1,7 +1,7 @@
 /*! \file cat.c
  *  \author Grzegorz Jaworski
  *  \date 27 Styczeń 2017
- *  \version   v0.3
+ *  \version   v0.4
  *  \brief Wyświetlanie zawartości pliku
  *  \details Program wyświetlajacy zawartość wskazanych plików
  *  @see https://github.com/HiImTrixie/shell-jj
@@ -15,18 +15,22 @@
 #include <ctype.h> // library with isprint()
 #include <getopt.h>
 
-char version[64] = "v.0.3"; /*!< Aktualna wersja programu */
+char version[64] = "v.0.4"; /*!< Aktualna wersja programu */
 
 unsigned show_tabs = 0; /*!< Wyświetl znaki tabulacji */
 
 unsigned show_ends = 0; /*!< Wyświetl znak końca linii */
 
+unsigned number_ = 0; /*!< Wyświetl numer linii */
+
 // Content of help
 static char const * const option_help[] =
 {
 "With no FILE read standard input.\n\n"
+"-A  --show-all  The same effect as -TE"
 "-T  --show-tabs  Display ^I instead of TAB character.",
 "-E  --show-ends  Display $ na końcu każdej linii.",
+"-n  --number  Show number of the line.",
 "-v --version  Show version of program."
 "--help  Output this help.",
 0
@@ -38,8 +42,10 @@ static char const * const option_help[] =
  */
 static struct option const long_options[] =
 {
+  {"show-all", 0, 0, 'A'},
   {"show-tabs", 0, 0, 'T'},
   {"show-ends", 0, 0, 'E'},
+  {"number", 0, 0, 'n'},
   {"version", 0, 0, 'v'},
   {"help", 0, 0, 'h'},
   {0, 0, 0, 0}
@@ -89,15 +95,20 @@ void pversion()
 void cat(char *name)
 {
   FILE *file;
-  int c;
+  int c, index = 1;
+  if (number_) printf("     %d  ",index++);
   file = fopen(name, "r");
   if(file)
   {
     while((c = getc(file)) != EOF){
       if(show_tabs && c=='\t')
         printf("^I");
+      else if(show_ends && number_ && c=='\n')
+        printf("$\n     %d  ",index++);
       else if(show_ends && c=='\n')
         printf("$\n");
+      else if(number_ && c=='\n')
+        printf("\n     %d  ",index++);
       else{
         putchar(c);
       }
@@ -111,17 +122,26 @@ int main(int argc, char **argv)
   int c, index;
 
   while ((c = getopt_long (argc, argv,
-          "TEvh",
+          "ATEnvh",
           long_options, 0)) != EOF){
 
     switch (c)
     {
+      case 'A':
+        show_tabs = 1;
+        show_ends = 1;
+        break;
+
       case 'T':
         show_tabs = 1;
         break;
 
       case 'E':
         show_ends = 1;
+        break;
+
+      case 'n':
+        number_ = 1;
         break;
 
       case 'v':
