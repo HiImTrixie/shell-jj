@@ -13,7 +13,25 @@
 #include <time.h>
 #include <utime.h>
 
+/*! \brief Funkcja uaktualniająca czas modyfikacji.
+ *
+ * Funkcja zmienająca w podanym pliku (*name) czas ostatniej modyfikacji.
+ *
+ * \param[in] *name Nazwa pliku w, którym ma zostać zmieniony czas modyfikacji.
+ */
+void change_mtime(char *name)
+{
+  struct stat foo;
+  time_t mtime;
+  struct utimbuf new_times;
 
+  stat(name, &foo);
+  mtime = foo.st_mtime;
+
+  new_times.actime = foo.st_atime;
+  new_times.modtime = time(NULL);
+  utime(name, &new_times);
+}
 
 int main(int argc, char **argv)
 {
@@ -22,16 +40,6 @@ int main(int argc, char **argv)
 	file = fopen(argv[1], "w");
 	fclose(file);
 
-  struct stat foo;
-  time_t mtime;
-  struct utimbuf new_times;
-
-  stat(argv[1], &foo);
-  mtime = foo.st_mtime;
-
-  new_times.actime = foo.st_atime;
-  new_times.modtime = time(NULL);
-  utime(argv[1], &new_times);
-
+  change_mtime(argv[1]);
   return 0;
 }
