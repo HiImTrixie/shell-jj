@@ -114,7 +114,8 @@ void cat(char *name)
       }
     }
     fclose(file);
-  }
+  } else
+    perror( "cat: ");
 }
 
 int main(int argc, char **argv)
