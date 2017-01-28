@@ -26,13 +26,13 @@ unsigned number_ = 0; /*!< Wyświetl numer linii */
 // Content of help
 static char const * const option_help[] =
 {
-"With no FILE read standard input.\n\n"
-"-A  --show-all  The same effect as -TE"
+"With no FILE read standard input.\n\n",
+"-A  --show-all  The same effect as -TE",
 "-T  --show-tabs  Display ^I instead of TAB character.",
 "-E  --show-ends  Display $ na końcu każdej linii.",
 "-n  --number  Show number of the line.",
-"-v --version  Show version of program."
-"--help  Output this help.",
+"-v --version  Show version of program.",
+"-h --help  Output this help.",
 0
 };
 
