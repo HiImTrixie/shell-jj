@@ -9,23 +9,24 @@
  *
  *
  */
+#include <stdio.h>
+
+void copy(char *name1, char *name2){
+  FILE *file1= NULL, *file2= NULL;
+  file1 = fopen(name1, "r");
+  if(file1!=NULL)
+  {
+    file2 = fopen(name2, "w");
+    char symbol;
+    for(int i=0; ( symbol = fgetc(file1)) != -1; i++)
+      fputc(symbol, file2);
+    fclose(file1);
+    fclose(file2);
+  }
+}
 
 int main(int argc, char **argv)
 {
-        FILE *file1= NULL, *file2= NULL;
-        if(argv[1] && argv[2])
-        {
-                fp1 = fopen(argv[1], "r");
-                fp2 = fopen(argv[2], "w");
-                char symbol;
-                for(int i=0; ( symbol = fgetc(file1)) != -1; i++)
-                  fputc(symbol, file2);
-                fclose(file1);
-                fclose(file2);
-        }
-        else
-        {
-                fprintf(stderr, "Not enough or too many arguments\n");
-        }
-	return 0;
+  copy(argv[1],argv[2]);
+  return 0;
 }
