@@ -20,3 +20,4 @@
 | cp.c  | Add -r copy files from directory to DESTINATION           |![alt text](http://progressed.io/bar/0 "Progress")|
 | cp.c  | add -n option that not overwrite an existing file         |![alt text](http://progressed.io/bar/0 "Progress")|
 | cp.c  | copy directory to DESTINATION                             |![alt text](http://progressed.io/bar/0 "Progress")|
+| man.c | Add reading more than one manual                          |![alt text](http://progressed.io/bar/0 "Progress")|
