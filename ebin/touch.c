@@ -1,7 +1,7 @@
 /*! \file touch.c
  *  \author Grzegorz Jaworski
  *  \date 28 Styczeń 2017
- *  \version   v0.3
+ *  \version   v0.4
  *  \brief Zmiana czasu modyfikacji pliku
  *  \details Program zmieniający czas ostatniej modyfikacji podanych plików.
  *  @see https://github.com/HiImTrixie/shell-jj
@@ -17,18 +17,21 @@
 #include <ctype.h> // library with isprint()
 #include <getopt.h>
 
-char version[64] = "v.0.3"; /*!< Aktualna wersja programu */
+char version[64] = "v.0.4"; /*!< Aktualna wersja programu */
 
 unsigned mdtime = 0; /*!< Zmień tylko czas modyfikacji */
 
 unsigned actime = 0; /*!< Zmień tylko czas dostepu */
+
+unsigned no_create = 0; /*!< Nie twórz nowego pliku */
 
 // Content of help
 static char const * const option_help[] =
 {
 "With no FILE read standard input.\n\n",
 "  -a --atime  Change only access time.",
-"  -m --mtime  Change only modification time."
+"  -c --no-create  Don't create new file.",
+"  -m --mtime  Change only modification time.",
 "  -v --version  Show version of program.",
 "  -h --help  Output this help.",
 0
@@ -40,6 +43,7 @@ static char const * const option_help[] =
  */
 static struct option const long_options[] =
 {
+  {"no-create", 0, 0, 'c'},
   {"atime", 0, 0, 'a'},
   {"mtime", 0, 0, 'm'},
   {"version", 0, 0, 'v'},
@@ -109,10 +113,11 @@ void change_time(char *name)
 
 int main(int argc, char **argv)
 {
+  FILE *file;
   int c, index;
 
   while ((c = getopt_long (argc, argv,
-          "amvh",
+          "acmvh",
           long_options, 0)) != EOF){
 
     switch (c)
@@ -120,10 +125,17 @@ int main(int argc, char **argv)
       case 'a':
         actime=1;
         break;
+
+      case 'c':
+        no_create=1;
+        break;
+
       case 'm':
         mdtime=1;
         break;
+
       case 'v':
+
         pversion();
         exit (0);
 
@@ -157,15 +169,16 @@ int main(int argc, char **argv)
   }
   else{
     for (index=0; optind < argc; index++){
-      change_time(argv[optind]);
+      file = fopen(argv[optind], "rb+");
+      if(file == NULL && !no_create){
+        file = fopen(argv[optind], "w");
+        fclose(file);
+      } else if (file != NULL) {
+        fclose(file);
+        change_time(argv[optind]);
+      }
       optind++;
     }
   }
-  /*
-	FILE *file;
-	int c,j;
-	file = fopen(argv[1], "w");
-	fclose(file);*/
-
   return 0;
 }
