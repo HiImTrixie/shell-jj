@@ -3,7 +3,7 @@
 ### Functions to implement
 |Function|   Description                              | Progress  |
 | :---   | :--------------------                      |:---       |
-| touch	 | Create ebin file with this function.        |![alt text](http://progressed.io/bar/0 "Progress")|
+| touch	 | Create ebin file with this function.        |![alt text](http://progressed.io/bar/100 "Progress")|
 | cp	   | Create ebin file with this function.        |![alt text](http://progressed.io/bar/0 "Progress")|
 | man    | Create ebin file with this function.        |![alt text](http://progressed.io/bar/0 "Progress")|
 | rm     | Create ebin file with this function.        |![alt text](http://progressed.io/bar/0 "Progress")|
