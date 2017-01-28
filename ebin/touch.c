@@ -19,10 +19,16 @@
 
 char version[64] = "v.0.3"; /*!< Aktualna wersja programu */
 
+unsigned mdtime = 0; /*!< Zmień tylko czas modyfikacji */
+
+unsigned actime = 0; /*!< Zmień tylko czas dostepu */
+
 // Content of help
 static char const * const option_help[] =
 {
 "With no FILE read standard input.\n\n",
+"  -a --atime  Change only access time.",
+"  -m --mtime  Change only modification time."
 "  -v --version  Show version of program.",
 "  -h --help  Output this help.",
 0
@@ -34,6 +40,8 @@ static char const * const option_help[] =
  */
 static struct option const long_options[] =
 {
+  {"atime", 0, 0, 'a'},
+  {"mtime", 0, 0, 'm'},
   {"version", 0, 0, 'v'},
   {"help", 0, 0, 'h'},
   {0, 0, 0, 0}
@@ -86,9 +94,16 @@ void change_time(char *name)
 
   stat(name, &foo);
   mtime = foo.st_mtime;
-
-  new_times.actime = time(NULL); // foo.st_atime
-  new_times.modtime = time(NULL);
+  if ((mdtime && actime) || !mdtime && !actime){
+    new_times.actime = time(NULL); // foo.st_atime
+    new_times.modtime = time(NULL);
+  }else if (mdtime){
+    new_times.actime = foo.st_atime;
+    new_times.modtime = time(NULL);
+  }else if (actime){
+    new_times.actime = time(NULL);
+    new_times.modtime = foo.st_mtime;
+  }
   utime(name, &new_times);
 }
 
@@ -97,11 +112,17 @@ int main(int argc, char **argv)
   int c, index;
 
   while ((c = getopt_long (argc, argv,
-          "vh",
+          "amvh",
           long_options, 0)) != EOF){
 
     switch (c)
     {
+      case 'a':
+        actime=1;
+        break;
+      case 'm':
+        mdtime=1;
+        break;
       case 'v':
         pversion();
         exit (0);
