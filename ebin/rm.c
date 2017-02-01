@@ -2,7 +2,7 @@
  *  \author Grzegorz Jaworski
  *  \date 1 Luty 2017
  *  \version   v0.2
- *  \brief Program usuwający podany plik
+ *  \brief Program usuwający podane pliki
  *  \details Program usuwa podane jako argumenty pliki.
  *  @see https://github.com/HiImTrixie/shell-jj
  *
@@ -118,8 +118,10 @@ int main(int argc, char **argv)
     try_help("Expected argument after options");
   }
   else{
-    if( remove( argv[optind] ) != 0 )
-      perror( "Error deleting file" );
+    for (index=0; optind < argc; index++){
+      if( remove( argv[optind++] ) != 0 )
+        perror( "Error deleting file" );
+    }
   }
   return 0;
 }
