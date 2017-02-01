@@ -1,7 +1,7 @@
 /*! \file rm.c
  *  \author Grzegorz Jaworski
  *  \date 1 Luty 2017
- *  \version   v0.2
+ *  \version   v0.3
  *  \brief Program usuwający podane pliki
  *  \details Program usuwa podane jako argumenty pliki.
  *  @see https://github.com/HiImTrixie/shell-jj
@@ -14,13 +14,15 @@
 #include <ctype.h> // library with isprint()
 #include <getopt.h>
 
-char version[64] = "v.0.2"; /*!< Aktualna wersja programu */
+char version[64] = "v.0.3"; /*!< Aktualna wersja programu */
 
+unsigned recursive = 0; /*!< Delete it recursively */
 
 // Content of help
 static char const * const option_help[] =
 {
-"Some of useful options.\n\n",
+"Some of useful options.\n",
+"  -r --recursive  Remove directories and content in.",
 "  -v --version  Show version of program.",
 "  -h --help  Output this help.",
 0
@@ -32,6 +34,7 @@ static char const * const option_help[] =
  */
 static struct option const long_options[] =
 {
+  {"recursive", 0, 0, 'r'},
   {"version", 0, 0, 'v'},
   {"help", 0, 0, 'h'},
   {0, 0, 0, 0}
@@ -76,13 +79,16 @@ int main(int argc, char **argv)
   int c, index;
 
   while ((c = getopt_long (argc, argv,
-          "vh",
+          "rvh",
           long_options, 0)) != EOF){
 
     switch (c)
     {
-      case 'v':
+      case 'r':
+        recursive=1;
+        break;
 
+      case 'v':
         pversion();
         exit (0);
 
@@ -119,7 +125,10 @@ int main(int argc, char **argv)
   }
   else{
     for (index=0; optind < argc; index++){
-      if( remove( argv[optind++] ) != 0 )
+      if ( recursive ){
+        remove(argv[optind++]);
+      }
+      else if( remove( argv[optind++] ) != 0 )
         perror( "Error deleting file" );
     }
   }

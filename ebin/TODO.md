@@ -6,7 +6,7 @@
 | touch	 | Create ebin file with this function.        |![alt text](http://progressed.io/bar/100 "Progress")|
 | cp	   | Create ebin file with this function.        |![alt text](http://progressed.io/bar/50 "Progress")|
 | man    | Create ebin file with this function.        |![alt text](http://progressed.io/bar/90 "Progress")|
-| rm     | Create ebin file with this function.        |![alt text](http://progressed.io/bar/0 "Progress")|
+| rm     | Create ebin file with this function.        |![alt text](http://progressed.io/bar/90 "Progress")|
 | mv     | Create ebin file with this function.        |![alt text](http://progressed.io/bar/0 "Progress")|
 
 
