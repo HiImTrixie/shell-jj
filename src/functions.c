@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
 #include "build_in.h"
 #include "functions.h"
-
+#include "parse.h"
+#include "globals.h"
 char *built_in_str[] =
 {
 	"cd",
@@ -13,16 +15,28 @@ char *built_in_str[] =
 	"cat",
 	"touch",
 	"rm",
-	"cp"
+	"cp",
+	"history"
 };
+void psh_history()
+{
+	int row = 1;
+	char temp[MAXTOKENLEN + 1];
+	FILE *history = fopen(".history", "r");
+	while(fgets(temp, MAXTOKENLEN + 1, history) != NULL){
+		fprintf(stdout, "%d %s", row, temp);
+		row++;
+	}
+	fclose(history);
 
-int psh_cp(char **args)
+}
+void psh_cp()
 {
         FILE *fp1= NULL, *fp2= NULL;
-        if(args[1] && args[2])
+        if(arg[1][0] && arg[1][1])
         {
-                fp1 = fopen(args[1], "r");
-                fp2 = fopen(args[2], "w");
+                fp1 = fopen(arg[1][0], "r");
+                fp2 = fopen(arg[1][1], "w");
                 char symbol;
                 for(int i=0; ( symbol = fgetc(fp1)) != -1; i++)
                   fputc(symbol, fp2);
@@ -33,57 +47,46 @@ int psh_cp(char **args)
         {
                 fprintf(stderr, "Not enough or too many arguments\n");
         }
-	return 1;
 }
-int psh_rm(char **args)
+void psh_rm()
 {
-	if(args[1] == NULL)
+	if(arg[1][0] == NULL)
 	{
 		fprintf(stderr, "No arguments were given.\n");
 		return 1;
 	}
 	else
 	{
-		remove(args[1]);
+		remove(arg[1][1]);
 	}
-	return 1;
 }
-int psh_touch(char **args)
+void psh_touch()
 {
 	FILE *fp;
 	int c,j;
-	if(args[1] == NULL)
+	if(arg[1][0] == NULL)
 	{
 		fprintf(stderr, "No arguments were given.\n");
 		return 1;
 	}
-	else if(args[1] && args[2] == NULL)
+	else if(arg[1][0] && arg[1][1] == NULL)
 	{
-		fp = fopen(args[1], "w");
+		fp = fopen(arg[1], "w");
 		fclose(fp);
 	}
-	else
-	{
-		for(int i = 1; args[i] != NULL; i++)
-		{
-			fp = fopen(args[i], "w");
-			fclose(fp);
-		}
-	}
-	return 1;
 }
-int psh_cat(char **args)
+void psh_cat()
 {
 	FILE *fp;
 	int c;
-	if(args[1] == NULL)
+	if(arg[1][0] == NULL)
 	{
 		fprintf(stderr, "No file were given\n");
 		return 1;
 	}
 	else
 	{
-		fp = fopen(args[1], "r");
+		fp = fopen(arg[1][0], "r");
 		if(fp)
 		{
 			while((c = getc(fp)) != EOF)
@@ -91,18 +94,17 @@ int psh_cat(char **args)
 			fclose(fp);
 		}
 	}
-	return 1;
 }
-int psh_man(char **args)
+void psh_man()
 {
 	FILE *fp;
 	int c;
-	if(args[1] == NULL)
+	if(arg[1][0] == NULL)
 	{
 		printf("You have to type what function you want to check.\n");
 		printf("Example: man ls\n");
 	}
-	else if(strcmp(args[1], "cd") == 0)
+	else if(strcmp(arg[1][0], "cd") == 0)
 	{
 		fp = fopen("man/cd.txt", "r");
 		if(fp)
@@ -112,7 +114,7 @@ int psh_man(char **args)
 			fclose(fp);
 		}
 	}
-	else if(strcmp(args[1], "exit") == 0)
+	else if(strcmp(arg[1][0], "exit") == 0)
 	{
 		fp = fopen("man/exit.txt", "r");
 		if(fp)
@@ -122,7 +124,7 @@ int psh_man(char **args)
 			fclose(fp);
 		}
 	}
-	else if(strcmp(args[1], "pwd") == 0)
+	else if(strcmp(arg[1][0], "pwd") == 0)
 	{
 		fp = fopen("man/pwd.txt", "r");
 		if(fp)
@@ -132,7 +134,7 @@ int psh_man(char **args)
 			fclose(fp);
 		}
 	}
-	else if(strcmp(args[1], "ls") == 0)
+	else if(strcmp(arg[1][0], "ls") == 0)
 	{
 		fp = fopen("man/ls.txt", "r");
 		if(fp)
@@ -142,7 +144,7 @@ int psh_man(char **args)
 			fclose(fp);
 		}
 	}
-	else if(strcmp(args[1], "man") == 0)
+	else if(strcmp(arg[1][0], "man") == 0)
 	{
 		fp = fopen("man/man.txt", "r");
 		if(fp)
@@ -152,7 +154,7 @@ int psh_man(char **args)
 			fclose(fp);
 		}
 	}
-	else if(strcmp(args[1], "cat") == 0)
+	else if(strcmp(arg[1][0], "cat") == 0)
 	{
 		fp = fopen("man/cat.txt", "r");
 		if(fp)
@@ -163,28 +165,32 @@ int psh_man(char **args)
 		}
 	}
   putchar('\n');
-	return 1;
 }
-int psh_cd(char **args)
+void psh_cd()
 {
-	if(args[1] == NULL)
+	if(arg[1][0] != 0)
 	{
-		fprintf(stderr, "PonyShell: Expected argument to \"cd\"\n");
-	}
-	else
-	{
-		if(chdir(args[1]) != 0)
+		if(!chdir(arg[1]))
+			strcpy(pwd, arg[1]);
+		else
 		{
-			perror("PonyShell");
+			if(errno = ENOENT)
+			{
+				fprintf(stdout, "PSH: cd: %s: No such file or directory\n", arg[1]);
+			}
+			else if(errno == ENOTDIR)
+			{
+				fprintf(stdout, "PSH: cd: %s: Not a directory\n", arg[1]);
+				errno = 0;
+			}
 		}
 	}
-	return 1;
 }
 
-int psh_help(char **args)
+void psh_help()
 {
 	int i;
-	printf("PonyShell written by Mateusz Gorczycki, Grzegorz Jaworski, Adrian Rupala.\nBased on Stephen Brennan's Shell.\n");
+	printf("PonyShell written by Mateusz Gorczycki, Grzegorz Jaworski, Adrian Rupala.\n");
 	printf("Type program names and arguments, and hit enter.\n");
 	printf("The following are build in:\n");
 
@@ -193,8 +199,7 @@ int psh_help(char **args)
 		printf(" %s\n", built_in_str[i]);
 	}
 }
-
-int psh_exit(char **args)
+void psh_exit()
 {
-	return 0;
+	exit(atoi(arg[1]));
 }

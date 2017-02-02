@@ -24,36 +24,41 @@ int isbuildin(char *s)
   	command = RM;
   else if (!strcmp(s, "cp"))
     command = CP;
+	else if(!strcmp(s, "history"))
+		command =  HISTORY;
 
   return command;
 }
 
-int runbuildin(BuildInType command,char **args)
+void runbuildin(BuildInType command)
 {
 	switch(command)
 	{
 		case CD:
-			psh_cd(args);
+			psh_cd();
 			break;
 		case HELP:
-			psh_help(args);
+			psh_help();
 			break;
 		case EXIT:
-			psh_exit(args);
+			psh_exit();
 			break;
 		case MAN:
-      psh_man(args);
+      psh_man();
     case CAT:
-      psh_cat(args);
+      psh_cat();
       break;
     case TOUCH:
-      psh_touch(args);
+      psh_touch();
       break;
     case RM:
-      psh_rm(args);
+      psh_rm();
 		  break;
     case CP:
-      psh_cp(args);
+      psh_cp();
+      break;
+    case HISTORY:
+      psh_history();
       break;
 		case NO:/* nothing */
 		default:break;

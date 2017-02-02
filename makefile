@@ -1,14 +1,48 @@
-CC = gcc
-FILES = main.c build_in.c shell.c functions.c
-OUT = PonyShell
+#                         (C) 2014 HuangJinDong                        # 
+########################################################################
 
-build: $(FILES)
-	$(CC) -o $(OUT) $(FILES)
+CC=gcc
+CFLAGS += -Wall
+CFLAGS += -I$(INCLUDE) 
+CFLAGS += -std=gnu99
+CFLAGS += -lreadline # for readline
+CFLAGS += -O1        # release
 
-run: PonyShell
-	env PATH="bin:/usr/bin" ./PonyShell
+SRC=./src
+OBJ=./obj
+INCLUDE=./include
 
+
+install:$(OBJ)/main.o $(OBJ)/scan.o $(OBJ)/build_in.o \
+	$(OBJ)/readline.o $(OBJ)/execute.o $(OBJ)/errorprocess.o \
+	$(OBJ)/parse.o $(OBJ)/functions.o
+	$(CC) $(CFLAGS) $^ -o psh
+
+$(OBJ)/main.o:$(SRC)/main.c
+	mkdir -p obj
+	$(CC) $(CFLAGS) -c $< -o $@ 
+
+$(OBJ)/scan.o:$(SRC)/scan.c 
+	$(CC) $(CFLAGS) -c $< -o $@ 
+
+$(OBJ)/build_in.o:$(SRC)/build_in.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ)/readline.o:$(SRC)/readline.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ)/execute.o:$(SRC)/execute.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ)/errorprocess.o:$(SRC)/errorprocess.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ)/parse.o:$(SRC)/parse.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ)/functions.o:$(SRC)/functions.c
+	$(CC) $(CFLAGS) -c $< -o $@
 clean:
-	rm PonyShell
+	rm -f $(OBJ)/* 
+	rm -f ddsh 
 
-rebuild: clean build
