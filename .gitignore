@@ -34,5 +34,5 @@
 
 # OS Files
 *.DS_Store
-
+.history
 PonyShell
