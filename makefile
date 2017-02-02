@@ -1,6 +1,3 @@
-#                         (C) 2014 HuangJinDong                        # 
-########################################################################
-
 CC=gcc
 CFLAGS += -Wall
 CFLAGS += -I$(INCLUDE) 
@@ -16,7 +13,7 @@ INCLUDE=./include
 install:$(OBJ)/main.o $(OBJ)/scan.o $(OBJ)/build_in.o \
 	$(OBJ)/readline.o $(OBJ)/execute.o $(OBJ)/errorprocess.o \
 	$(OBJ)/parse.o $(OBJ)/functions.o
-	$(CC) $(CFLAGS) $^ -o psh
+	$(CC) $(CFLAGS) $^ -o PonyShell
 
 $(OBJ)/main.o:$(SRC)/main.c
 	mkdir -p obj
@@ -42,7 +39,10 @@ $(OBJ)/parse.o:$(SRC)/parse.c
 
 $(OBJ)/functions.o:$(SRC)/functions.c
 	$(CC) $(CFLAGS) -c $< -o $@
+run: PonyShell
+	env PATH="bin" ./PonyShell
+
 clean:
 	rm -f $(OBJ)/* 
-	rm -f ddsh 
+	rm -f PonyShell 
 
